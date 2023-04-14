@@ -23,7 +23,6 @@ const addProduct = (req, res) => {
     } else {
       const productList = JSON.parse(data);
       productList.push(product);
-      console.log(productList);
       fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
         if (err) {
           console.error(err);
@@ -34,7 +33,53 @@ const addProduct = (req, res) => {
   });
 };
 
+const updateProduct = (req, res) => {
+  const { id } = req.params;
+  const product = req.body;
+  fs.readFile("data.txt", "utf-8", (err, data) => {
+    if (err) {
+      console.log("error: ", err);
+    } else {
+      const productList = JSON.parse(data);
+      const indexProduct = productList.findIndex((p) => p.id == id);
+      if (indexProduct == -1) {
+        throw new Error("Producto no encontrado");
+      }
+      productList[indexProduct] = product;
+      fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
+        if (err) {
+          console.error(err);
+        }
+        res.status(200).json(productList);
+      });
+    }
+  });
+};
+
+const deleteProduct = (req, res) => {
+  const { id } = req.params;
+  fs.readFile("data.txt", "utf-8", (err, data) => {
+    if (err) {
+      console.log("error: ", err);
+    } else {
+      const productList = JSON.parse(data);
+      const indexProduct = productList.findIndex((p) => p.id == id);
+      if (indexProduct == -1) {
+        throw new Error("Producto no encontrado");
+      }
+      productList.splice(indexProduct, 1);
+      fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
+        if (err) {
+          console.error(err);
+        }
+        res.status(200).json(productList);
+      });
+    }
+  });
+};
 module.exports = {
   getAllProducts,
   addProduct,
+  updateProduct,
+  deleteProduct,
 };

@@ -17,11 +17,11 @@
   },
   {
     "id": "b246a8e5-00f3-45ec-829b-8d16495b9671",
-    "name": "perejil",
-    "description": "principalmente usada para confundirse con el cilantro",
+    "name": "azuquitar",
+    "description": "endulzar la vida, vicio mas comun del planeta tierra",
     "price": 800,
     "quantity": 10,
-    "category": "vegetales"
+    "category": "endulzar"
   },
   {
     "id": "c9feddf7-30cf-4a7d-8c55-6e566c2af4b4",

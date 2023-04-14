@@ -2,7 +2,10 @@ const express = require("express");
 const {
   getAllProducts,
   addProduct,
+  updateProduct,
+  deleteProduct,
 } = require("./controllers/products.controller");
+
 const router = express.Router();
 const validator = require("./middlewares/validator");
 
@@ -17,9 +20,13 @@ router.post(
 );
 
 // change product
-router.patch("/products/{id}", getAllProducts);
+router.patch(
+  "/products/:id",
+  validator("products", "updateProductSchema"),
+  updateProduct
+);
 
 // delete product
-router.delete("/products/{id}", getAllProducts);
+router.delete("/products/:id", deleteProduct);
 
 module.exports = router;
