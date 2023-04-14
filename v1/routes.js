@@ -1,25 +1,25 @@
 const express = require("express");
-const { getAllProducts } = require("./controllers/products.controller");
+const {
+  getAllProducts,
+  addProduct,
+} = require("./controllers/products.controller");
 const router = express.Router();
-
-// generic route handler
-const genericHandler = (req, res, next) => {
-  res.json({
-    status: "success",
-    data: req.body,
-  });
-};
+const validator = require("./middlewares/validator");
 
 // get all products
 router.get("/products/", getAllProducts);
 
 // create new product
-router.post("/products/", genericHandler);
+router.post(
+  "/products/",
+  validator("products", "createProductSchema"),
+  addProduct
+);
 
 // change product
-router.patch("/products/{id}", genericHandler);
+router.patch("/products/{id}", getAllProducts);
 
 // delete product
-router.delete("/products/{id}", genericHandler);
+router.delete("/products/{id}", getAllProducts);
 
 module.exports = router;
