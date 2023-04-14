@@ -1,4 +1,5 @@
 const express = require("express");
+const { getAllProducts } = require("./controllers/products.controller");
 const router = express.Router();
 
 // generic route handler
@@ -9,15 +10,16 @@ const genericHandler = (req, res, next) => {
   });
 };
 
+// get all products
+router.get("/products/", getAllProducts);
+
 // create new product
-router.post("/api/v1/products", genericHandler);
+router.post("/products/", genericHandler);
 
 // change product
-router.patch("/api/v1/products/{id}", genericHandler);
+router.patch("/products/{id}", genericHandler);
 
 // delete product
-router.delete("/api/v1/products/{id}", genericHandler);
-
-module.exports = router;
+router.delete("/products/{id}", genericHandler);
 
 module.exports = router;

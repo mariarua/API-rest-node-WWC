@@ -1,36 +1,20 @@
-const Routes = require("./routes");
-
 const express = require("express");
 const logger = require("morgan");
-const bodyParser = require("body-parser");
+const fs = require("fs");
 
-let fs = require("fs");
+const RoutesV1 = require("./v1/routes");
 
 const PORT = 3000;
-
 const app = express();
 
 // load app middlewares
 app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // load our API routes
-app.use("/", Routes);
+app.use("/api/v1", RoutesV1);
 
 app.get("/", (req, res) => {
   res.send("Esta es mi primera app en express");
-});
-
-app.get("/api/v1/products/", (req, res) => {
-  products = fs.readFile("archivo.txt", "utf-8", (err, data) => {
-    if (err) {
-      console.log("error: ", err);
-    } else {
-      const objetoJSON = JSON.parse(data);
-      res.json(objetoJSON);
-    }
-  });
 });
 
 app.listen(PORT, () => {
