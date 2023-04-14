@@ -17,7 +17,7 @@ app.use(logger("dev"));
 app.use("/api/v1", RoutesV1);
 
 app.get("/", (req, res) => {
-  res.send("Esta es mi segunda app en express");
+  res.send("Esta es mi api REST de productos");
 });
 
 app.listen(PORT, () => {

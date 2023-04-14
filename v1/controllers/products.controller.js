@@ -50,7 +50,7 @@ const updateProduct = (req, res) => {
         if (err) {
           console.error(err);
         }
-        res.status(200).json(productList);
+        res.status(200).json(product);
       });
     }
   });
