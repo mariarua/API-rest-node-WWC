@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "pepino",
+    "description": "vegetal utilizado para comer o para colocarselo en la cara tipo spa",
+    "price": 2000,
+    "quantity": 20,
+    "category": "vegetales"
+  },
+  {
+    "id": 2,
+    "name": "awita",
+    "description": "fuente de la eterna juventud",
+    "price": 500,
+    "quantity": 100,
+    "category": "liquidos"
+  },
+  {
+    "id": "b246a8e5-00f3-45ec-829b-8d16495b9671",
+    "name": "perejil",
+    "description": "principalmente usada para confundirse con el cilantro",
+    "price": 800,
+    "quantity": 10,
+    "category": "vegetales"
+  },
+  {
+    "id": "c9feddf7-30cf-4a7d-8c55-6e566c2af4b4",
+    "name": "perejil",
+    "description": "principalmente usada para confundirse con el cilantro",
+    "price": 800,
+    "quantity": 10,
+    "category": "vegetales"
+  },
+  {
+    "id": "92448519-10a7-42df-8216-e7aecfaae0ab",
+    "name": "perejil",
+    "description": "principalmente usada para confundirse con el cilantro",
+    "price": 800,
+    "quantity": 10,
+    "category": "vegetales"
+  }
+]
