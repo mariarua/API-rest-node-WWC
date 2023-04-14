@@ -1,11 +1,14 @@
 const express = require("express");
 const logger = require("morgan");
-const fs = require("fs");
+const bodyParser = require("body-parser");
 
 const RoutesV1 = require("./v1/routes");
 
 const PORT = 3000;
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // load app middlewares
 app.use(logger("dev"));
@@ -14,7 +17,7 @@ app.use(logger("dev"));
 app.use("/api/v1", RoutesV1);
 
 app.get("/", (req, res) => {
-  res.send("Esta es mi primera app en express");
+  res.send("Esta es mi segunda app en express");
 });
 
 app.listen(PORT, () => {
