@@ -56,7 +56,6 @@ const updateProduct = (req, res) => {
           error: "Producto no encontrado",
           status: 404,
         });
-        throw new Error("Producto no encontrado");
       }
       productList[indexProduct] = product;
       fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
@@ -86,7 +85,6 @@ const deleteProduct = (req, res) => {
           error: "Producto no encontrado",
           status: 404,
         });
-        throw new Error("Producto no encontrado");
       }
       const product = productList[indexProduct];
       productList.splice(indexProduct, 1);
