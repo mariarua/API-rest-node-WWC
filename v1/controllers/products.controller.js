@@ -5,6 +5,9 @@ const getAllProducts = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
       console.log("error: ", err);
+      res.status(500).json({
+        error: err,
+      });
     } else {
       const productList = JSON.parse(data);
       res.status(200).json(productList);
@@ -18,6 +21,9 @@ const addProduct = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
       console.log("error: ", err);
+      res.status(500).json({
+        error: err,
+      });
     } else {
       const productList = JSON.parse(data);
       productList.push(product);
@@ -37,6 +43,9 @@ const updateProduct = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
       console.log("error: ", err);
+      res.status(500).json({
+        error: err,
+      });
     } else {
       const productList = JSON.parse(data);
       const indexProduct = productList.findIndex((p) => p.id == id);
@@ -59,6 +68,9 @@ const deleteProduct = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
       console.log("error: ", err);
+      res.status(500).json({
+        error: err,
+      });
     } else {
       const productList = JSON.parse(data);
       const indexProduct = productList.findIndex((p) => p.id == id);
