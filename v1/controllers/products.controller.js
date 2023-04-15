@@ -52,6 +52,10 @@ const updateProduct = (req, res) => {
       const productList = JSON.parse(data);
       const indexProduct = productList.findIndex((p) => p.id == id);
       if (indexProduct == -1) {
+        res.status(404).json({
+          error: "Producto no encontrado",
+          status: 404,
+        });
         throw new Error("Producto no encontrado");
       }
       productList[indexProduct] = product;
@@ -70,7 +74,7 @@ const deleteProduct = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
       console.log("error: ", err);
-      res.status(501).json({
+      res.status(404).json({
         error: err,
         status: 501,
       });
@@ -78,6 +82,10 @@ const deleteProduct = (req, res) => {
       const productList = JSON.parse(data);
       const indexProduct = productList.findIndex((p) => p.id == id);
       if (indexProduct == -1) {
+        res.status(404).json({
+          error: "Producto no encontrado",
+          status: 404,
+        });
         throw new Error("Producto no encontrado");
       }
       const product = productList[indexProduct];
