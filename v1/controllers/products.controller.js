@@ -1,8 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 
-const { products } = require("../validators");
-
 const getAllProducts = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
