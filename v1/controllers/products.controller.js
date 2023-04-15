@@ -27,7 +27,7 @@ const addProduct = (req, res) => {
         if (err) {
           console.error(err);
         }
-        res.status(200).json(productList);
+        res.status(200).json(product);
       });
     }
   });
@@ -67,12 +67,15 @@ const deleteProduct = (req, res) => {
       if (indexProduct == -1) {
         throw new Error("Producto no encontrado");
       }
+      const product = productList[indexProduct];
       productList.splice(indexProduct, 1);
       fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
         if (err) {
           console.error(err);
         }
-        res.status(200).json(productList);
+        res.status(200).json({
+          message: `Producto ${product.name} fue eliminado`,
+        });
       });
     }
   });

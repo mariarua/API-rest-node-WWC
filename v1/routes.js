@@ -9,24 +9,131 @@ const {
 const router = express.Router();
 const validator = require("./middlewares/validator");
 
-// get all products
+/**
+ * @swagger
+ * definitions:
+ *   ProductRes:
+ *     required:
+ *      - id
+ *      - name
+ *      - description
+ *      - price
+ *      - quantity
+ *      - category
+ *     properties:
+ *      id:
+ *        type: string
+ *      name:
+ *        type: string
+ *      description:
+ *        type: string
+ *      price:
+ *        type: number
+ *      quantity:
+ *        type: number
+ *      category:
+ *        type: string
+ */
+
+/**
+ * @swagger
+ * /api/v1/products/:
+ *  get:
+ *    summary: Get all products
+ *    description: Use this request to get all products from the list
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: Product list
+ *        schema:
+ *           type: array
+ *           items:
+ *             $ref: "#/definitions/ProductRes"
+ *    parameters:
+ */
 router.get("/products/", getAllProducts);
 
-// create new product
+/**
+ * @swagger
+ * /api/v1/products/:
+ *  post:
+ *    summary: Create product
+ *    description: Use this request to create product and add of the product list
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: Product created
+ *        schema:
+ *          type: object
+ *          $ref: "#/definitions/ProductRes"
+ *    parameters:
+ *      - in: body
+ *        schema:
+ *           type: object
+ *           properties:
+ *            name:
+ *              type: string
+ *            description:
+ *              type: string
+ *            price:
+ *              type: number
+ *            quantity:
+ *              type: number
+ *            category:
+ *              type: string
+ */
 router.post(
   "/products/",
   validator("products", "createProductSchema"),
   addProduct
 );
 
-// change product
+/**
+ * @swagger
+ * /api/v1/products/{id}:
+ *  patch:
+ *    summary: Update product
+ *    description: Use this request to update the product from the product list
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: Product created
+ *        schema:
+ *          type: object
+ *          $ref: "#/definitions/ProductRes"
+ *    parameters:
+ *      - in: body
+ *        schema:
+ *          type: object
+ *          $ref: "#/definitions/ProductRes"
+ */
 router.patch(
   "/products/:id",
   validator("products", "updateProductSchema"),
   updateProduct
 );
 
-// delete product
+/**
+ * @swagger
+ * /api/v1/products/{id}:
+ *  delete:
+ *    summary: Delete product
+ *    description: Use this request to delete a product from the product list
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: Delete product
+ *        schema:
+ *           type: object
+ *           properties:
+ *              message:
+ *                type: string
+ *    parameters:
+ */
 router.delete("/products/:id", deleteProduct);
 
 module.exports = router;

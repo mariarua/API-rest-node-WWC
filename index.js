@@ -2,6 +2,9 @@ const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+
 const RoutesV1 = require("./v1/routes");
 
 const PORT = 3000;
@@ -16,9 +19,25 @@ app.use(logger("dev"));
 // load our API routes
 app.use("/api/v1", RoutesV1);
 
-app.get("/", (req, res) => {
-  res.send("Esta es mi api REST de productos");
-});
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      version: "1.0.0",
+      title: "Documentation API REST",
+      description: "Documentation for API REST of a product list",
+      contact: {
+        name: "María Isabel Rúa Velez",
+        url: "https://github.com/mariarua/API-rest-node-WWC",
+      },
+      servers: ["http://localhost:3000"],
+    },
+  },
+  basePath: "/",
+  apis: ["./v1/routes.js"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.listen(PORT, () => {
   console.log(`Escuchando en http://localhost:${PORT}`);
