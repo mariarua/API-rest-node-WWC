@@ -85,17 +85,18 @@ const deleteProduct = (req, res) => {
           error: "Producto no encontrado",
           status: 404,
         });
-      }
-      const product = productList[indexProduct];
-      productList.splice(indexProduct, 1);
-      fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
-        if (err) {
-          console.error(err);
-        }
-        res.status(200).json({
-          message: `Producto ${product.name} fue eliminado`,
+      } else {
+        const product = productList[indexProduct];
+        productList.splice(indexProduct, 1);
+        fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
+          if (err) {
+            console.error(err);
+          }
+          res.status(200).json({
+            message: `Producto ${product.name} fue eliminado`,
+          });
         });
-      });
+      }
     }
   });
 };
