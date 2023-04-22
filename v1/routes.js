@@ -50,12 +50,6 @@ const validator = require("./middlewares/validator");
  *           type: array
  *           items:
  *             $ref: "#/definitions/ProductRes"
- *    example:
- *      name: "noxpirin"
- *      description: "noxpirin a los síntomas de la gripe les pone fin"
- *      price: 640
- *      quantity: 0.5
- *      category: medicamentos
  */
 router.get("/products/", getAllProducts);
 
@@ -75,6 +69,7 @@ router.get("/products/", getAllProducts);
  *          $ref: "#/definitions/ProductRes"
  *    parameters:
  *      - in: body
+ *        name: body
  *        schema:
  *           type: object
  *           properties:
@@ -88,6 +83,12 @@ router.get("/products/", getAllProducts);
  *              type: number
  *            category:
  *              type: string
+ *        example:
+ *          name: "noxpirin"
+ *          description: "noxpirin a los síntomas de la gripe les pone fin"
+ *          price: 640
+ *          quantity: 0.5
+ *          category: medicamentos
  */
 router.post(
   "/products/",
@@ -110,7 +111,13 @@ router.post(
  *          type: object
  *          $ref: "#/definitions/ProductRes"
  *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        description: Product id
  *      - in: body
+ *        name: body
  *        schema:
  *          type: object
  *          $ref: "#/definitions/ProductRes"
@@ -129,6 +136,12 @@ router.patch(
  *    description: Use this request to delete a product from the product list
  *    produces:
  *      - application/json
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        description: Product id
  *    responses:
  *      200:
  *        description: Delete product
@@ -137,7 +150,6 @@ router.patch(
  *           properties:
  *              message:
  *                type: string
- *    parameters:
  */
 router.delete("/products/:id", deleteProduct);
 

@@ -41,10 +41,16 @@ const addProduct = (req, res) => {
 const updateProduct = (req, res) => {
   const { id } = req.params;
   const product = req.body;
+  if (!id) {
+    return res.status(404).json({
+      error: "Producto no encontrado",
+      status: 404,
+    });
+  }
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
       console.log("error: ", err);
-      res.status(501).json({
+      return res.status(501).json({
         error: err,
         status: 501,
       });
@@ -52,18 +58,22 @@ const updateProduct = (req, res) => {
       const productList = JSON.parse(data);
       const indexProduct = productList.findIndex((p) => p.id == id);
       if (indexProduct == -1) {
-        res.status(404).json({
+        return res.status(404).json({
           error: "Producto no encontrado",
           status: 404,
         });
+      } else {
+        productList[indexProduct] = {
+          ...product,
+          id: productList[indexProduct].id,
+        };
+        fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
+          if (err) {
+            console.error(err);
+          }
+          return res.status(200).json(productList[indexProduct]);
+        });
       }
-      productList[indexProduct] = product;
-      fs.writeFile("data.txt", JSON.stringify(productList), (err) => {
-        if (err) {
-          console.error(err);
-        }
-        res.status(200).json(product);
-      });
     }
   });
 };

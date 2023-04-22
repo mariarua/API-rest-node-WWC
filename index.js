@@ -33,6 +33,7 @@ const swaggerOptions = {
       schemes: ["http"],
     },
   },
+  jsonEditor: true,
   basePath: "/",
   apis: ["./v1/routes.js"],
 };
