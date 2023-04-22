@@ -1,156 +1,51 @@
 const express = require("express");
-const {
-  getAllProducts,
-  addProduct,
-  updateProduct,
-  deleteProduct,
-} = require("./controllers/products.controller");
 
 const router = express.Router();
 const validator = require("./middlewares/validator");
+const { Product } = require("./controllers/models");
+const { default: mongoose } = require("mongoose");
 
-/**
- * @swagger
- * definitions:
- *   ProductRes:
- *     required:
- *      - id
- *      - name
- *      - description
- *      - price
- *      - quantity
- *      - category
- *     properties:
- *      id:
- *        type: string
- *      name:
- *        type: string
- *      description:
- *        type: string
- *      price:
- *        type: number
- *      quantity:
- *        type: number
- *      category:
- *        type: string
- */
+router.get("/health", (_, res) =>
+  res.json({
+    status: "ok",
+    hasConnection: !!process.env.MONGODB_CONNECTION,
+  })
+);
 
-/**
- * @swagger
- * /api/v1/products:
- *  get:
- *    summary: Get all products
- *    description: Use this request to get all products from the list
- *    produces:
- *      - application/json
- *    responses:
- *      200:
- *        description: Product list
- *        schema:
- *           type: array
- *           items:
- *             $ref: "#/definitions/ProductRes"
- */
-router.get("/products/", getAllProducts);
+router.get("/products/", async (req, res) => {
+  const products = await Product.find();
+  res.json(products);
+});
 
-/**
- * @swagger
- * /api/v1/products:
- *  post:
- *    summary: Create product
- *    description: Use this request to create product and add of the product list
- *    produces:
- *      - application/json
- *    responses:
- *      200:
- *        description: Product created
- *        schema:
- *          type: object
- *          $ref: "#/definitions/ProductRes"
- *    parameters:
- *      - in: body
- *        name: body
- *        schema:
- *           type: object
- *           properties:
- *            name:
- *              type: string
- *            description:
- *              type: string
- *            price:
- *              type: number
- *            quantity:
- *              type: number
- *            category:
- *              type: string
- *        example:
- *          name: "noxpirin"
- *          description: "noxpirin a los síntomas de la gripe les pone fin"
- *          price: 640
- *          quantity: 0.5
- *          category: medicamentos
- */
 router.post(
   "/products/",
   validator("products", "createProductSchema"),
-  addProduct
+  async (req, res) => {
+    const product = new Product(req.body);
+    console.log("Reqqq", req.body);
+    console.log(product);
+    await product.save().then(() => res.json(product));
+  }
 );
 
-/**
- * @swagger
- * /api/v1/products/{id}:
- *  patch:
- *    summary: Update product
- *    description: Use this request to update the product from the product list
- *    produces:
- *      - application/json
- *    responses:
- *      200:
- *        description: Product created
- *        schema:
- *          type: object
- *          $ref: "#/definitions/ProductRes"
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: string
- *        description: Product id
- *      - in: body
- *        name: body
- *        schema:
- *          type: object
- *          $ref: "#/definitions/ProductRes"
- */
 router.patch(
   "/products/:id",
-  validator("products", "updateProductSchema"),
-  updateProduct
+  validator("products", "createProductSchema"),
+  async (req, res) => {
+    const { id } = req.params;
+    const product = req.body;
+    const currentProduct = await Product.findOneAndUpdate({ _id: id }, product);
+    res.json(currentProduct);
+  }
 );
 
-/**
- * @swagger
- * /api/v1/products/{id}:
- *  delete:
- *    summary: Delete product
- *    description: Use this request to delete a product from the product list
- *    produces:
- *      - application/json
- *    parameters:
- *      - in: path
- *        name: id
- *        schema:
- *          type: string
- *        description: Product id
- *    responses:
- *      200:
- *        description: Delete product
- *        schema:
- *           type: object
- *           properties:
- *              message:
- *                type: string
- */
-router.delete("/products/:id", deleteProduct);
+router.delete("/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findOneAndDelete({ _id: id });
+  res.json({
+    status: "Ok",
+    product: product,
+  });
+});
 
 module.exports = router;

@@ -6,8 +6,11 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 
 const RoutesV1 = require("./v1/routes");
+const mongoose = require("mongoose");
 
-const PORT = 3000;
+require("dotenv").config();
+
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.json());
@@ -41,6 +44,21 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-app.listen(PORT, () => {
-  console.log(`Escuchando en http://localhost:${PORT}`);
-});
+console.log("Mongo", process.env.MONGODB_CONNECTION);
+
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_CONNECTION, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    app.listen(PORT, () => {
+      console.log(`Aplicación corriendo en http://localhost:${PORT}`);
+    });
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+};
+
+start();
