@@ -37,7 +37,7 @@ const validator = require("./middlewares/validator");
 
 /**
  * @swagger
- * /api/v1/products/:
+ * /api/v1/products:
  *  get:
  *    summary: Get all products
  *    description: Use this request to get all products from the list
@@ -50,13 +50,18 @@ const validator = require("./middlewares/validator");
  *           type: array
  *           items:
  *             $ref: "#/definitions/ProductRes"
- *    parameters:
+ *    example:
+ *      name: "noxpirin"
+ *      description: "noxpirin a los síntomas de la gripe les pone fin"
+ *      price: 640
+ *      quantity: 0.5
+ *      category: medicamentos
  */
 router.get("/products/", getAllProducts);
 
 /**
  * @swagger
- * /api/v1/products/:
+ * /api/v1/products:
  *  post:
  *    summary: Create product
  *    description: Use this request to create product and add of the product list

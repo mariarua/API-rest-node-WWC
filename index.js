@@ -28,8 +28,9 @@ const swaggerOptions = {
       contact: {
         name: "María Isabel Rúa Velez",
         url: "https://github.com/mariarua/API-rest-node-WWC",
+        email: "ruavelezm@gmail.com",
       },
-      servers: ["http://localhost:3000"],
+      schemes: ["http"],
     },
   },
   basePath: "/",
