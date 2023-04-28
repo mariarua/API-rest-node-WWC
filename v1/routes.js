@@ -13,8 +13,10 @@ router.get("/health", (_, res) =>
 );
 
 router.get("/products/", async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (e) {}
 });
 
 router.post(
@@ -35,7 +37,7 @@ router.patch(
     const { id } = req.params;
     const product = req.body;
     const currentProduct = await Product.findOneAndUpdate({ _id: id }, product);
-    res.json(currentProduct);
+    res.json(product);
   }
 );
 

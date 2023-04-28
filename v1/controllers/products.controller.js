@@ -4,7 +4,6 @@ const fs = require("fs");
 const getAllProducts = (req, res) => {
   fs.readFile("data.txt", "utf-8", (err, data) => {
     if (err) {
-      console.log("eorrr: ", err);
       res.status(501).json({
         error: err,
       });

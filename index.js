@@ -44,8 +44,6 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-console.log("Mongo", process.env.MONGODB_CONNECTION);
-
 const start = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_CONNECTION, {
