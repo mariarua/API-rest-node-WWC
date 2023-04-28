@@ -16,7 +16,9 @@ router.get("/products/", async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
-  } catch (e) {}
+  } catch (e) {
+    res.json({ error: e });
+  }
 });
 
 router.post(
@@ -24,9 +26,11 @@ router.post(
   validator("products", "createProductSchema"),
   async (req, res) => {
     const product = new Product(req.body);
-    console.log("Reqqq", req.body);
-    console.log(product);
-    await product.save().then(() => res.json(product));
+    try {
+      await product.save().then(() => res.json(product));
+    } catch (e) {
+      res.json({ error: e });
+    }
   }
 );
 
@@ -36,18 +40,29 @@ router.patch(
   async (req, res) => {
     const { id } = req.params;
     const product = req.body;
-    const currentProduct = await Product.findOneAndUpdate({ _id: id }, product);
-    res.json(product);
+    try {
+      const currentProduct = await Product.findOneAndUpdate(
+        { _id: id },
+        product
+      );
+      res.json(product);
+    } catch (e) {
+      res.json({ error: e });
+    }
   }
 );
 
 router.delete("/products/:id", async (req, res) => {
   const { id } = req.params;
-  const product = await Product.findOneAndDelete({ _id: id });
-  res.json({
-    status: "Ok",
-    product: product,
-  });
+  try {
+    const product = await Product.findOneAndDelete({ _id: id });
+    res.json({
+      status: "Ok",
+      product: product,
+    });
+  } catch (e) {
+    res.json({ error: e });
+  }
 });
 
 module.exports = router;
