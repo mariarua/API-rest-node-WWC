@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
@@ -8,7 +9,7 @@ const swaggerUI = require("swagger-ui-express");
 const RoutesV1 = require("./v1/routes");
 const mongoose = require("mongoose");
 
-require("dotenv").config();
+const sequelize = require("./v1/utils/postgresql.config");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -46,6 +47,8 @@ app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const start = async () => {
   try {
+    await sequelize.sync();
+    console.log("Database connected to PostgreSQL");
     await mongoose.connect(process.env.MONGODB_CONNECTION, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
