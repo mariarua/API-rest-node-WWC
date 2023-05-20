@@ -6,10 +6,10 @@ require("dotenv").config();
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 
-const RoutesV1 = require("./v1/routes");
+const RoutesV1 = require("./src/v1/routes");
 const mongoose = require("mongoose");
 
-const sequelize = require("./v1/utils/postgresql.config");
+const sequelize = require("./src/v1/utils/postgresql.config");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
 // load our API routes
-app.use("/api/v1", RoutesV1);
+app.use(RoutesV1);
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -39,7 +39,7 @@ const swaggerOptions = {
   },
   jsonEditor: true,
   basePath: "/",
-  apis: ["./v1/routes.js"],
+  apis: ["./routes"],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
