@@ -19,8 +19,10 @@ exports.createUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
     res.status(200).json(user);
-  } catch (error) {
-    console.error(error.message);
-    next(error);
+  } catch (e) {
+    console.error(e.message);
+    next(e);
   }
 };
+
+exports.getIdUser = async (req, res, next) => {};
