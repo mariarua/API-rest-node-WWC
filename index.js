@@ -1,5 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
+const http = require("http");
+const { Server } = require("socket.io");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
@@ -10,9 +12,15 @@ const RoutesV1 = require("./src/v1/routes");
 const mongoose = require("mongoose");
 
 const sequelize = require("./src/v1/utils/postgresql.config");
+const { serialize } = require("v8");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+const server = http.createServer(app);
+
+const io = new Server(server, { cors: { origins: "*" } });
+io.on("connection", require("./src/v1/io"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,7 +61,7 @@ const start = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Aplicación corriendo en http://localhost:${PORT}`);
     });
   } catch (e) {
